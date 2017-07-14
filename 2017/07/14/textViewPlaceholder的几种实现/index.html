@@ -93,15 +93,16 @@
 
 
 
-<meta name="description" content="Only the paranoid can survival">
-<meta property="og:type" content="website">
+<meta name="description" content="Github上看了几个textView添加Placeholder的方法，有几种方式都会出现textView添加Placeholder位置偏移的情况。实现功能我一向觉得能用最简单最清晰易懂的思路解决就是最棒的方式，提供看到的几种思路，一种是利用runtime添加label的分类，还有一种是添加PlaceholderLabel后各种回调通知，我都觉得太冗余了，现将我最认同最便捷的2种方式，记录一下。">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Sai is really good handsome">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/07/14/textViewPlaceholder的几种实现/index.html">
 <meta property="og:site_name" content="Sai is really good handsome">
-<meta property="og:description" content="Only the paranoid can survival">
+<meta property="og:description" content="Github上看了几个textView添加Placeholder的方法，有几种方式都会出现textView添加Placeholder位置偏移的情况。实现功能我一向觉得能用最简单最清晰易懂的思路解决就是最棒的方式，提供看到的几种思路，一种是利用runtime添加label的分类，还有一种是添加PlaceholderLabel后各种回调通知，我都觉得太冗余了，现将我最认同最便捷的2种方式，记录一下。">
+<meta property="og:updated_time" content="2017-07-14T02:35:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sai is really good handsome">
-<meta name="twitter:description" content="Only the paranoid can survival">
+<meta name="twitter:description" content="Github上看了几个textView添加Placeholder的方法，有几种方式都会出现textView添加Placeholder位置偏移的情况。实现功能我一向觉得能用最简单最清晰易懂的思路解决就是最棒的方式，提供看到的几种思路，一种是利用runtime添加label的分类，还有一种是添加PlaceholderLabel后各种回调通知，我都觉得太冗余了，现将我最认同最便捷的2种方式，记录一下。">
 
 
 
@@ -129,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/07/14/textViewPlaceholder的几种实现/"/>
 
 
 
 
 
-  <title>Sai is really good handsome</title>
+  <title> | Sai is really good handsome</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -161,9 +162,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-   page-home 
- ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -266,9 +265,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -294,9 +293,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/07/14/textViewPlaceholder的几种实现/" itemprop="url">未命名</a></h1>
+          <h1 class="post-title" itemprop="name headline"></h1>
         
 
         <div class="post-meta">
@@ -343,9 +340,7 @@
       
 
       
-        
-          
-            <ul>
+        <ul>
 <li>Github上看了几个textView添加Placeholder的方法，有几种方式都会出现textView添加Placeholder位置偏移的情况。实现功能我一向觉得能用最简单最清晰易懂的思路解决就是最棒的方式，提供看到的几种思路，一种是利用runtime添加label的分类，还有一种是添加PlaceholderLabel后各种回调通知，我都觉得太冗余了，现将我最认同最便捷的2种方式，记录一下。<br>  本文仅做记录，参考了[VV木公子] (<a href="http://www.jianshu.com/p/9edb8be75e0b" target="_blank" rel="external">http://www.jianshu.com/p/9edb8be75e0b</a>)</li>
 </ul>
 <ol>
@@ -355,20 +350,27 @@
 <p>2、通过运行时，我们发现，UITextView的内部有一个名为“_placeHolderLabel”的私有成员变量。大家知道，Objective-C中没有绝对的私有变量，因为我们可以通过KVC来访问私有变量。虽然苹果官方没有给我们开发者提供类似于占位符的属性，但是通过运行时，我们遍历出了一个placeHolderLabel的私有变量这种方法简单易懂，代码量少，非常聪明 ，哈哈。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line">#import &quot;GreenViewController.h&quot;</div><div class="line">#import &lt;objc/runtime.h&gt;</div><div class="line">#import &lt;objc/message.h&gt;</div><div class="line"></div><div class="line">#define ScreenWidth [[UIScreen mainScreen]bounds].size.width</div><div class="line"></div><div class="line">@interface GreenViewController ()</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">@implementation GreenViewController</div><div class="line"></div><div class="line">- (void)viewDidLoad &#123;</div><div class="line">    [super viewDidLoad];</div><div class="line">    </div><div class="line">//     通过运行时，发现UITextView有一个叫做“_placeHolderLabel”的私有变量</div><div class="line">    unsigned int count = 0;</div><div class="line">    Ivar *ivars = class_copyIvarList([UITextView class], &amp;count);</div><div class="line">    </div><div class="line">    for (int i = 0; i &lt; count; i++) &#123;</div><div class="line">        Ivar ivar = ivars[i];</div><div class="line">        const char *name = ivar_getName(ivar);</div><div class="line">        NSString *objcName = [NSString stringWithUTF8String:name];</div><div class="line">        NSLog(@&quot;%d : %@&quot;,i,objcName);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    [self setupTextView];</div><div class="line"></div><div class="line">    // Do any additional setup after loading the view.</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)didReceiveMemoryWarning &#123;</div><div class="line">    [super didReceiveMemoryWarning];</div><div class="line">    // Dispose of any resources that can be recreated.</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">- (void)setupTextView</div><div class="line">&#123;</div><div class="line">    UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(10, 100, [UIScreen mainScreen].bounds.size.width-20, 100)];</div><div class="line">    [textView setBackgroundColor:[UIColor whiteColor]];</div><div class="line">    [self.view addSubview:textView];</div><div class="line">    </div><div class="line">    // _placeholderLabel</div><div class="line">    UILabel *placeHolderLabel = [[UILabel alloc] init];</div><div class="line">    placeHolderLabel.text = @&quot;请输入内容&quot;;</div><div class="line">    placeHolderLabel.numberOfLines = 0;</div><div class="line">    placeHolderLabel.textColor = [UIColor lightGrayColor];</div><div class="line">    [placeHolderLabel sizeToFit];</div><div class="line">    [textView addSubview:placeHolderLabel];</div><div class="line">    </div><div class="line">    // same font</div><div class="line">    textView.font = [UIFont systemFontOfSize:13.f];</div><div class="line">    placeHolderLabel.font = [UIFont systemFontOfSize:13.f];</div><div class="line">    </div><div class="line">    self.automaticallyAdjustsScrollViewInsets = NO;</div><div class="line">    [textView setValue:placeHolderLabel forKey:@&quot;_placeholderLabel&quot;];</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure></p>
 <p>附加：利用runtime可以获取的列表，用以记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">unsigned int count;</div><div class="line">    //获取属性列表</div><div class="line">    objc_property_t *propertyList = class_copyPropertyList([self class], &amp;count);</div><div class="line">    for (unsigned int i=0; i&lt;count; i++) &#123;</div><div class="line">        const char *propertyName = property_getName(propertyList[i]);</div><div class="line">        NSLog(@&quot;property----&gt;%@&quot;, [NSString stringWithUTF8String:propertyName]);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //获取方法列表</div><div class="line">    Method *methodList = class_copyMethodList([self class], &amp;count);</div><div class="line">    for (unsigned int i; i&lt;count; i++) &#123;</div><div class="line">        Method method = methodList[i];</div><div class="line">        NSLog(@&quot;method----&gt;%@&quot;, NSStringFromSelector(method_getName(method)));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //获取成员变量列表</div><div class="line">    Ivar *ivarList = class_copyIvarList([self class], &amp;count);</div><div class="line">    for (unsigned int i; i&lt;count; i++) &#123;</div><div class="line">        Ivar myIvar = ivarList[i];</div><div class="line">        const char *ivarName = ivar_getName(myIvar);</div><div class="line">        NSLog(@&quot;Ivar----&gt;%@&quot;, [NSString stringWithUTF8String:ivarName]);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //获取协议列表</div><div class="line">    __unsafe_unretained Protocol **protocolList = class_copyProtocolList([self class], &amp;count);</div><div class="line">    for (unsigned int i; i&lt;count; i++) &#123;</div><div class="line">        Protocol *myProtocal = protocolList[i];</div><div class="line">        const char *protocolName = protocol_getName(myProtocal);</div><div class="line">        NSLog(@&quot;protocol----&gt;%@&quot;, [NSString stringWithUTF8String:protocolName]);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <div>
+      
+        
+
       
     </div>
 
@@ -376,141 +378,38 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/01/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sai">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/images/HeadImg/WechatIMG1.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sai is really good handsome">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/01/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-01T09:10:46+08:00">
-                2017-06-01
-              </time>
+              <a href="/2017/06/01/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -518,6 +417,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -702,10 +605,10 @@
 
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-  
+
 
   
 
