@@ -410,156 +410,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/14/UITableView添加占位图/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sai">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/images/HeadImg/WechatIMG1.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sai is really good handsome">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/07/14/UITableView添加占位图/" itemprop="url">UITableView添加占位图</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-14T11:25:44+08:00">
-                2017-07-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS-文章分类目录，可以为空，注意-后面有个空格/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS 文章分类目录，可以为空，注意:后面有个空格</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>[参考链接 iOS程序犭袁<br>  ] (<a href="https://github.com/ChenYilong/CYLTableViewPlaceHolder" target="_blank" rel="external">https://github.com/ChenYilong/CYLTableViewPlaceHolder</a>)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#import &quot;CYLTableViewPlaceHolder.h&quot;</div></pre></td></tr></table></figure></p>
-<p>遵循协议<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@interface</div><div class="line"> ViewController（）&lt;CYLTableViewPlaceHolderDelegate&gt;</div></pre></td></tr></table></figure></p>
-<p>实现协议方法：</p>
-<p>仅一个必须实现的协议方法：</p>
-<p>创建一个自定义的占位视图并返回</p>
-<p>@required</p>
-<p>在tableView为空时,返回一个空的重叠视图@返回一个空的重叠视图<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-（UIView *）makePlaceHolderView;</div></pre></td></tr></table></figure></p>
-<p>这里注意两点:<br>1、CYLTableViewPlaceHolder的cyl_reloadData方法内部会重新将该占位视图的框架进行设置，设置为与当前的 TableView 一致：包括xy坐标和宽高。防止TableView 位置或尺寸的变更。</p>
-<p>2、以上步骤，包括遵循协议实现协议方法，可以既自在定义的 TableView中去做，可以也。在 TableView的代理中去做。<br>既可以让代理遵循协议，实现协议方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@interface</div><div class="line"></div><div class="line"> ViewController</div><div class="line"></div><div class="line">（）&lt;CYLTableViewPlaceHolderDelegate&gt;</div></pre></td></tr></table></figure></p>
-<p>也可以让自定义的 TableView遵循协议，实现协议方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@interface</div><div class="line"> MyTableView</div><div class="line">（）&lt;CYLTableViewPlaceHolderDelegate&gt;</div></pre></td></tr></table></figure></p>
-<p>这里推荐在自定义的TableView中实现，以降低耦合性，同时也可以为控制器瘦身。占据视图的点击事件等，请自行在<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (UIView *)makePlaceHolderView;</div></pre></td></tr></table></figure></p>
-<p>中所创建的查看中实现。</p>
-<p>另外，占位视图默认的设置是不能滚动的，也就不能下拉刷新了，但是如果想让占位视图可以滚动，则需要实现下面的可选代理方法。</p>
-<p>@选择<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">/ *</div><div class="line"></div><div class="line">！</div><div class="line"></div><div class="line">@brief启用tableView在占位符视图显示时滚动，默认情况下禁用。</div><div class="line"></div><div class="line">@attention没有必要返回NO，默认情况下不会为NO</div><div class="line"></div><div class="line">@return启用tableView滚动，只能返回YES</div><div class="line"></div><div class="line">* /</div><div class="line"></div><div class="line">- （BOOL）enableScrollWhenPlaceHolderViewShowing;</div></pre></td></tr></table></figure></p>
-<p>第三步使用cyl_reloaddata代替reloaddata)</p>
-<p>使用方法：使用仅需 cyl_reloadData代替 reloadData即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[self.tableView  cyl_reloadData];</div></pre></td></tr></table></figure></p>
-<p>注意：<br>cyl_reloadData内部已经实现了 [self.tableView reloadData]方法，请避免重复调用。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -605,7 +455,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">1</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -616,7 +466,7 @@
             
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">1</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
