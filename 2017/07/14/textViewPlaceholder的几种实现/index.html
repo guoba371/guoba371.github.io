@@ -1,0 +1,703 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Github上看了几个textView添加Placeholder的方法，有几种方式都会出现textView添加Placeholder位置偏移的情况。实现功能我一向觉得能用最简单最清晰易懂的思路解决就是最棒的方式，提供看到的几种思路，一种是利用runtime添加label的分类，还有一种是添加PlaceholderLabel后各种回调通知，我都觉得太冗余了，现将我最认同最便捷的2种方式，记录一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="textView添加Placeholder的几种方式">
+<meta property="og:url" content="http://yoursite.com/2017/07/14/textViewPlaceholder的几种实现/index.html">
+<meta property="og:site_name" content="Sai is really good handsome">
+<meta property="og:description" content="Github上看了几个textView添加Placeholder的方法，有几种方式都会出现textView添加Placeholder位置偏移的情况。实现功能我一向觉得能用最简单最清晰易懂的思路解决就是最棒的方式，提供看到的几种思路，一种是利用runtime添加label的分类，还有一种是添加PlaceholderLabel后各种回调通知，我都觉得太冗余了，现将我最认同最便捷的2种方式，记录一下。">
+<meta property="og:updated_time" content="2017-07-14T03:08:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="textView添加Placeholder的几种方式">
+<meta name="twitter:description" content="Github上看了几个textView添加Placeholder的方法，有几种方式都会出现textView添加Placeholder位置偏移的情况。实现功能我一向觉得能用最简单最清晰易懂的思路解决就是最棒的方式，提供看到的几种思路，一种是利用runtime添加label的分类，还有一种是添加PlaceholderLabel后各种回调通知，我都觉得太冗余了，现将我最认同最便捷的2种方式，记录一下。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/14/textViewPlaceholder的几种实现/"/>
+
+
+
+
+
+  <title>textView添加Placeholder的几种方式 | Sai is really good handsome</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sai is really good handsome</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Enjoy life And Code</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/14/textViewPlaceholder的几种实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/images/HeadImg/WechatIMG1.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sai is really good handsome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">textView添加Placeholder的几种方式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-14T11:30:16+08:00">
+                2017-07-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>Github上看了几个textView添加Placeholder的方法，有几种方式都会出现textView添加Placeholder位置偏移的情况。实现功能我一向觉得能用最简单最清晰易懂的思路解决就是最棒的方式，提供看到的几种思路，一种是利用runtime添加label的分类，还有一种是添加PlaceholderLabel后各种回调通知，我都觉得太冗余了，现将我最认同最便捷的2种方式，记录一下。<br>  本文仅做记录，参考了[VV木公子] (<a href="http://www.jianshu.com/p/9edb8be75e0b" target="_blank" rel="external">http://www.jianshu.com/p/9edb8be75e0b</a>)</li>
+</ul>
+<ol>
+<li>添加label，监听textView的输入。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div></pre></td><td class="code"><pre><div class="line">#import&quot;RedViewController.h&quot;</div><div class="line"></div><div class="line">#define ScreenWidth [[UIScreen mainScreen]bounds].size.width</div><div class="line"></div><div class="line">@interfaceRedViewController()</div><div class="line"></div><div class="line">@property(nonatomic,weak)UITextView*textView;</div><div class="line"></div><div class="line">@property(nonatomic,weak)UILabel*placeHolder;</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">@implementationRedViewController</div><div class="line"></div><div class="line">- (void)viewDidLoad &#123;</div><div class="line"></div><div class="line">[super viewDidLoad];</div><div class="line"></div><div class="line">[self viewConfig];</div><div class="line"></div><div class="line">// Do any additional setup after loading the view.</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)didReceiveMemoryWarning &#123;</div><div class="line"></div><div class="line">[super didReceiveMemoryWarning];</div><div class="line"></div><div class="line">// Dispose of any resources that can be recreated.</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)viewConfig</div><div class="line"></div><div class="line">&#123;</div><div class="line"></div><div class="line">UITextView*textView = [[UITextViewalloc]initWithFrame:CGRectMake(10,74,ScreenWidth-2*10,200)];</div><div class="line"></div><div class="line">textView.frame=CGRectMake(10,74,ScreenWidth-2*10,200);</div><div class="line"></div><div class="line">[self.view addSubview:textView];</div><div class="line"></div><div class="line">self.textView= textView;</div><div class="line"></div><div class="line">textView.contentInset=UIEdgeInsetsMake(-64,0,0,0);</div><div class="line"></div><div class="line">textView.font= [UIFontsystemFontOfSize:14];</div><div class="line"></div><div class="line">textView.delegate=self;</div><div class="line"></div><div class="line">[self setupPlaceHolder];</div><div class="line"></div><div class="line">//在弹出的键盘上面加一个view来放置退出键盘的Done按钮</div><div class="line"></div><div class="line">UIToolbar* topView = [[UIToolbar alloc]initWithFrame:CGRectMake(0,0,ScreenWidth,30)];</div><div class="line"></div><div class="line">[topView setBarStyle:UIBarStyleDefault];</div><div class="line"></div><div class="line">UIBarButtonItem* btnSpace = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpacetarget:selfaction:nil];</div><div class="line"></div><div class="line">UIBarButtonItem* doneButton = [[UIBarButtonItem alloc]initWithTitle:@&quot;完成&quot;style:UIBarButtonItemStyleDonetarget:selfaction:@selector(dismissKeyBoard)];</div><div class="line"></div><div class="line">NSArray* buttonsArray = [NSArray arrayWithObjects:btnSpace, doneButton,nil];</div><div class="line"></div><div class="line">[topView setItems:buttonsArray];</div><div class="line"></div><div class="line">[textView setInputAccessoryView:topView];</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">//给textView添加一个UILabel子控件</div><div class="line"></div><div class="line">- (void)setupPlaceHolder</div><div class="line"></div><div class="line">&#123;</div><div class="line"></div><div class="line">UILabel*placeHolder = [[UILabel alloc]initWithFrame:CGRectMake(5,0,200,30)];</div><div class="line"></div><div class="line">self.placeHolder= placeHolder;</div><div class="line"></div><div class="line">placeHolder.text=@&quot;sai is so handsome&quot;;</div><div class="line"></div><div class="line">placeHolder.font= [UIFontsystemFontOfSize:12];</div><div class="line"></div><div class="line">placeHolder.textColor= [UIColorlightGrayColor];</div><div class="line"></div><div class="line">placeHolder.numberOfLines=0;</div><div class="line"></div><div class="line">placeHolder.contentMode=UIViewContentModeTop;</div><div class="line"></div><div class="line">[self.textView addSubview:placeHolder];</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - UITextViewDelegate</div><div class="line"></div><div class="line">- (void)textViewDidChange:(UITextView*)textView</div><div class="line"></div><div class="line">&#123;</div><div class="line"></div><div class="line">if(!textView.text.length) &#123;</div><div class="line"></div><div class="line">self.placeHolder.alpha=1;</div><div class="line"></div><div class="line">&#125;else&#123;</div><div class="line"></div><div class="line">self.placeHolder.alpha=0;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">//关闭键盘</div><div class="line"></div><div class="line">-(void) dismissKeyBoard&#123;</div><div class="line"></div><div class="line">//[self.textView resignFirstResponder];</div><div class="line"></div><div class="line">[self.view endEditing:YES];</div><div class="line"></div><div class="line">&#125;</div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>2、通过运行时，我们发现，UITextView的内部有一个名为“_placeHolderLabel”的私有成员变量。大家知道，Objective-C中没有绝对的私有变量，因为我们可以通过KVC来访问私有变量。虽然苹果官方没有给我们开发者提供类似于占位符的属性，但是通过运行时，我们遍历出了一个placeHolderLabel的私有变量这种方法简单易懂，代码量少，非常聪明 ，哈哈。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line">#import &quot;GreenViewController.h&quot;</div><div class="line">#import &lt;objc/runtime.h&gt;</div><div class="line">#import &lt;objc/message.h&gt;</div><div class="line"></div><div class="line">#define ScreenWidth [[UIScreen mainScreen]bounds].size.width</div><div class="line"></div><div class="line">@interface GreenViewController ()</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">@implementation GreenViewController</div><div class="line"></div><div class="line">- (void)viewDidLoad &#123;</div><div class="line">    [super viewDidLoad];</div><div class="line">    </div><div class="line">//     通过运行时，发现UITextView有一个叫做“_placeHolderLabel”的私有变量</div><div class="line">    unsigned int count = 0;</div><div class="line">    Ivar *ivars = class_copyIvarList([UITextView class], &amp;count);</div><div class="line">    </div><div class="line">    for (int i = 0; i &lt; count; i++) &#123;</div><div class="line">        Ivar ivar = ivars[i];</div><div class="line">        const char *name = ivar_getName(ivar);</div><div class="line">        NSString *objcName = [NSString stringWithUTF8String:name];</div><div class="line">        NSLog(@&quot;%d : %@&quot;,i,objcName);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    [self setupTextView];</div><div class="line"></div><div class="line">    // Do any additional setup after loading the view.</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)didReceiveMemoryWarning &#123;</div><div class="line">    [super didReceiveMemoryWarning];</div><div class="line">    // Dispose of any resources that can be recreated.</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">- (void)setupTextView</div><div class="line">&#123;</div><div class="line">    UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(10, 100, [UIScreen mainScreen].bounds.size.width-20, 100)];</div><div class="line">    [textView setBackgroundColor:[UIColor whiteColor]];</div><div class="line">    [self.view addSubview:textView];</div><div class="line">    </div><div class="line">    // _placeholderLabel</div><div class="line">    UILabel *placeHolderLabel = [[UILabel alloc] init];</div><div class="line">    placeHolderLabel.text = @&quot;请输入内容&quot;;</div><div class="line">    placeHolderLabel.numberOfLines = 0;</div><div class="line">    placeHolderLabel.textColor = [UIColor lightGrayColor];</div><div class="line">    [placeHolderLabel sizeToFit];</div><div class="line">    [textView addSubview:placeHolderLabel];</div><div class="line">    </div><div class="line">    // same font</div><div class="line">    textView.font = [UIFont systemFontOfSize:13.f];</div><div class="line">    placeHolderLabel.font = [UIFont systemFontOfSize:13.f];</div><div class="line">    </div><div class="line">    self.automaticallyAdjustsScrollViewInsets = NO;</div><div class="line">    [textView setValue:placeHolderLabel forKey:@&quot;_placeholderLabel&quot;];</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure></p>
+<p>附加：利用runtime可以获取的列表，用以记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">unsigned int count;</div><div class="line">    //获取属性列表</div><div class="line">    objc_property_t *propertyList = class_copyPropertyList([self class], &amp;count);</div><div class="line">    for (unsigned int i=0; i&lt;count; i++) &#123;</div><div class="line">        const char *propertyName = property_getName(propertyList[i]);</div><div class="line">        NSLog(@&quot;property----&gt;%@&quot;, [NSString stringWithUTF8String:propertyName]);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //获取方法列表</div><div class="line">    Method *methodList = class_copyMethodList([self class], &amp;count);</div><div class="line">    for (unsigned int i; i&lt;count; i++) &#123;</div><div class="line">        Method method = methodList[i];</div><div class="line">        NSLog(@&quot;method----&gt;%@&quot;, NSStringFromSelector(method_getName(method)));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //获取成员变量列表</div><div class="line">    Ivar *ivarList = class_copyIvarList([self class], &amp;count);</div><div class="line">    for (unsigned int i; i&lt;count; i++) &#123;</div><div class="line">        Ivar myIvar = ivarList[i];</div><div class="line">        const char *ivarName = ivar_getName(myIvar);</div><div class="line">        NSLog(@&quot;Ivar----&gt;%@&quot;, [NSString stringWithUTF8String:ivarName]);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //获取协议列表</div><div class="line">    __unsafe_unretained Protocol **protocolList = class_copyProtocolList([self class], &amp;count);</div><div class="line">    for (unsigned int i; i&lt;count; i++) &#123;</div><div class="line">        Protocol *myProtocal = protocolList[i];</div><div class="line">        const char *protocolName = protocol_getName(myProtocal);</div><div class="line">        NSLog(@&quot;protocol----&gt;%@&quot;, [NSString stringWithUTF8String:protocolName]);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/14/UITableView添加占位图/" rel="next" title="UITableView添加占位图">
+                <i class="fa fa-chevron-left"></i> UITableView添加占位图
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/images/HeadImg/WechatIMG1.jpeg"
+               alt="Sai" />
+          <p class="site-author-name" itemprop="name">Sai</p>
+           
+              <p class="site-description motion-element" itemprop="description">Only the paranoid can survival</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sai</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
